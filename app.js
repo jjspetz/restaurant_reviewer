@@ -70,7 +70,7 @@ app.post('/restaurant/:id', function(req, resp, next) {
   let id = req.params.id;
   db.query("INSERT INTO review VALUES(default, 5, $1, $2, $3, $4)", [req.body.stars, req.body.title, req.body.review, id])
     .then(function() {
-      console.log('success');
+      resp.redirect('/restaurant/' + id);
     })
     .catch(next);
 });
