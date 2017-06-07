@@ -14,3 +14,23 @@
     </p>
   {{/if}}
 {{/each}}
+<div id='reviewBtn'>
+  <button id='reviewWrite' onclick="loadForm()">Write a review</button>
+</div>
+<div id='reviewForm'>
+  <form action='/restaurant/{{id}}' method='POST'>
+    <h3>My Review of {{title}}</h3>
+    <label>Title: </label>
+    <input type='text' name='title'>
+    <br><br>
+    <label>Stars:</label>
+    <input type='number' min='0' max ='5' name='stars'>
+    <br><br>
+    <label>Review:</label>
+    <br>
+    <textarea rows='4' cols='40' name='review'></textarea>
+    <br>
+    <button type='submit' onclick='closeForm()'>Submit</button>
+
+  </form>
+</div>

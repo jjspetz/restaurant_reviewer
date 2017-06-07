@@ -7,3 +7,6 @@ ul {
 p {
   margin: 5px 2em;
 }
+#reviewForm {
+  display: none;
+}

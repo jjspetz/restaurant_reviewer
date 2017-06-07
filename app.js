@@ -47,9 +47,9 @@ app.get('/search', function(req, resp, next) {
 // restaurant page route
 app.get('/restaurant/:id', function(req, resp, next) {
   let id = req.params.id;
-  let query = "SELECT restaurant.name AS restaurant, reviewer.name AS reviewer, \
-    address, category, stars, title, review FROM restaurant \
-    LEFT JOIN review ON restaurant.id=restaurant_id \
+  let query = "SELECT restaurant.id as id, restaurant.name AS restaurant, \
+    reviewer.name AS reviewer, address, category, stars, title, review \
+    FROM restaurant LEFT JOIN review ON restaurant.id=restaurant_id \
     LEFT JOIN reviewer ON reviewer.id=review.reviewer_id \
     WHERE restaurant.id=$1";
   db.any(query, id)
@@ -59,7 +59,18 @@ app.get('/restaurant/:id', function(req, resp, next) {
         results: results,
         address: results[0].address || 'none',
         category: results[0].category || 'none',
+        id: results[0].id
       });
+    })
+    .catch(next);
+});
+
+// route for writing new reviews
+app.post('/restaurant/:id', function(req, resp, next) {
+  let id = req.params.id;
+  db.query("INSERT INTO review VALUES(default, 5, $1, $2, $3, $4)", [req.body.stars, req.body.title, req.body.review, id])
+    .then(function() {
+      console.log('success');
     })
     .catch(next);
 });
