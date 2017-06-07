@@ -33,7 +33,7 @@ app.get('/', function(req, resp) {
 // search route (displays after user does a search)
 app.get('/search', function(req, resp, next) {
   let search = req.query.search
-  let query = "SELECT * FROM restaurant WHERE restaurant.name ILIKE '%$1#%'";
+  let query = "SELECT * FROM restaurant WHERE restaurant_name ILIKE '%$1#%'";
   db.any(query, search)
     .then(function(results) {
       resp.render('results.hbs', {
@@ -47,11 +47,14 @@ app.get('/search', function(req, resp, next) {
 // restaurant page route
 app.get('/restaurant/:id', function(req, resp, next) {
   let id = req.params.id;
-  let query = "SELECT * FROM restaurant WHERE restaurant.id=$1";
+  let query = "SELECT * FROM restaurant \
+    JOIN review ON restaurant.id=restaurant_id \
+    JOIN reviewer ON reviewer.id=reviewer_id \
+    WHERE restaurant.id=$1";
   db.one(query, id)
     .then(function(results) {
       resp.render('restaurant.hbs', {
-        title: results.name,
+        title: results.restaurant_name,
         results: results,
         address: results.address || 'none'
       });
