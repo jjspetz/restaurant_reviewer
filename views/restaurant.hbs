@@ -1,11 +1,16 @@
 
-<h3>{{results.restaurant_name}}</h3>
-<p>Cateory: {{results.category}}</p>
+
+<h3>{{title}}</h3>
+<p>Category: {{category}}</p>
 <p>Address: {{address}}</p>
 <br>
 <hr>
-<h4>{{results.title}} - by {{results.reviewer_name}}</h4>
-{{results.stars}}
-<p>
-  {{results.review}}
-</p>
+{{#each results}}
+  {{#if review}}
+    <h4>{{title}} - by {{reviewer}}</h4>
+
+    <p>
+      {{stars}} stars - {{review}}
+    </p>
+  {{/if}}
+{{/each}}
